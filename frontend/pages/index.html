@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-white">News Management</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:inline"></i>
+                    </button>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="#" data-page="home" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#" data-page="articles" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Articles</a>
+                        <a href="#" data-page="latest-news" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Latest News</a>
+                        <a href="#" data-page="categories" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Categories</a>
+                        <a href="#" data-page="admin" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="max-w-7xl mx-auto py-6 px-4">
+        <!-- Content will be loaded here -->
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/env.js"></script>
+    <script src="/assets/js/utils/utils.js"></script>
+    <script src="/assets/js/state/state.js"></script>
+    <script src="/assets/js/services/api.js"></script>
+    <script src="/assets/js/router/router.js"></script>
+    <script src="/assets/js/controllers/homeController.js"></script>
+    <script src="/assets/js/controllers/articlesController.js"></script>
+    <script src="/assets/js/controllers/latestNewsController.js"></script></script>
+    <script src="/assets/js/controllers/categoriesController.js"></script>
+    <script src="/assets/js/controllers/adminController.js"></script>
+    <script src="/assets/js/controllers/adminCreateArticleController.js"></script>
+    <script src="/assets/js/controllers/adminManageArticlesController.js"></script>
+    <script src="/assets/js/controllers/adminManageCategoriesController.js"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+</html>

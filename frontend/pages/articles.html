@@ -1,0 +1,104 @@
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Articles Management</h1>
+        <div class="flex space-x-2">
+            <button id="bulk-delete-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg hidden">
+                <i class="fas fa-trash mr-2"></i>Delete Selected
+            </button>
+            <button id="export-articles-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-download mr-2"></i>Export
+            </button>
+            <button id="create-article-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-plus mr-2"></i>Create Article
+            </button>
+        </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input type="text" id="search-input" placeholder="Search articles..." 
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+            </div>
+            <div class="w-full md:w-48">
+                <select id="category-filter" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+            <div class="w-full md:w-32">
+                <select id="sort-by" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+                    <option value="created_at">Date</option>
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <button id="select-all-btn" class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg" title="Select All">
+                    <i class="fas fa-check-square"></i>
+                </button>
+                <button id="grid-view-btn" class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button id="list-view-btn" class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Articles Container -->
+    <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Articles will be loaded here -->
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="flex justify-center space-x-2">
+        <!-- Pagination will be loaded here -->
+    </div>
+</div>
+
+<!-- Create/Edit Article Modal -->
+<div id="article-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl max-h-screen overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="modal-title" class="text-xl font-bold text-gray-800 dark:text-white">Create Article</h2>
+            <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form id="article-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
+                <input type="text" id="article-title" required 
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Author</label>
+                <input type="text" id="article-author" 
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+                <select id="article-category" 
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+                    <option value="General">General</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Business">Business</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Health">Health</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Content</label>
+                <textarea id="article-content" rows="8" required 
+                          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"></textarea>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="cancel-btn" class="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800">Cancel</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Save Article</button>
+            </div>
+        </form>
+    </div>
+</div>

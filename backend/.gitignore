@@ -1,0 +1,29 @@
+# Database
+news.db
+*.sqlite
+*.sqlite3
+
+# SSL Certificates
+cert.pem
+key.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.env
+*.log

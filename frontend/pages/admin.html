@@ -1,0 +1,152 @@
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-lg">
+        <h1 class="text-3xl font-bold mb-2">Admin Dashboard</h1>
+        <p class="text-lg opacity-90">Manage your news system</p>
+    </div>
+
+    <!-- Admin Navigation -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Content Management</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <button onclick="window.app.router.navigate('admin-create-article')" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg text-center">
+                <i class="fas fa-plus text-2xl mb-2"></i>
+                <p class="font-semibold">Create Article</p>
+                <p class="text-sm opacity-75">Add new articles</p>
+            </button>
+            <button onclick="window.app.router.navigate('admin-manage-articles')" 
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg text-center">
+                <i class="fas fa-newspaper text-2xl mb-2"></i>
+                <p class="font-semibold">Manage Articles</p>
+                <p class="text-sm opacity-75">Edit and delete articles</p>
+            </button>
+            <button onclick="window.app.router.navigate('admin-manage-categories')" 
+                    class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg text-center">
+                <i class="fas fa-tags text-2xl mb-2"></i>
+                <p class="font-semibold">Manage Categories</p>
+                <p class="text-sm opacity-75">Create and edit categories</p>
+            </button>
+            <button id="manage-media-btn" 
+                    class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg text-center">
+                <i class="fas fa-images text-2xl mb-2"></i>
+                <p class="font-semibold">Manage Media</p>
+                <p class="text-sm opacity-75">Upload and manage files</p>
+            </button>
+        </div>
+    </div>
+
+    <!-- Admin Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6" id="admin-stats">
+        <!-- Admin stats will be loaded here -->
+    </div>
+
+    <!-- System Actions -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">System Actions</h2>
+        <div class="grid grid-cols-1 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button id="export-data-btn" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                    <i class="fas fa-download mr-2"></i>Export All Data
+                </button>
+                <button id="import-data-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                    <i class="fas fa-upload mr-2"></i>Import Data
+                </button>
+                <button id="clear-cache-btn" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg">
+                    <i class="fas fa-broom mr-2"></i>Clear Cache
+                </button>
+                <button id="backup-db-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+                    <i class="fas fa-database mr-2"></i>Backup Database
+                </button>
+                <button id="bulk-operations-btn" class="w-full bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg">
+                    <i class="fas fa-tasks mr-2"></i>Bulk Operations
+                </button>
+                <button id="system-health-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
+                    <i class="fas fa-heartbeat mr-2"></i>System Health
+                </button>
+            </div>
+            
+            <!-- Import File Input -->
+            <input type="file" id="import-file-input" accept=".json" class="hidden">
+        </div>
+    </div>
+
+    <!-- Media Management Modal -->
+    <div id="media-management-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white">Manage Media</h2>
+                <button id="close-media-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Media</label>
+                        <input type="file" id="media-upload" multiple accept="image/*,video/*,audio/*" 
+                               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <button id="upload-media-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-upload mr-2"></i>Upload Files
+                    </button>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Media Files</h3>
+                    <div id="media-list" class="space-y-2 max-h-96 overflow-y-auto">
+                        <!-- Media files will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-white">Recent Activity</h2>
+            <button id="refresh-activity-btn" class="text-blue-600 hover:text-blue-800 text-sm">
+                <i class="fas fa-sync-alt mr-1"></i>Refresh
+            </button>
+        </div>
+        <div id="recent-activity" class="space-y-2">
+            <!-- Recent activity will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Operations Modal -->
+<div id="bulk-operations-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-white">Bulk Operations</h2>
+            <button id="close-bulk-modal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button id="bulk-delete-articles" class="bg-red-600 hover:bg-red-700 text-white p-4 rounded-lg text-center">
+                    <i class="fas fa-trash text-2xl mb-2"></i>
+                    <p class="font-semibold">Delete Old Articles</p>
+                    <p class="text-sm opacity-75">Remove articles older than 1 year</p>
+                </button>
+                <button id="bulk-update-categories" class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg text-center">
+                    <i class="fas fa-tags text-2xl mb-2"></i>
+                    <p class="font-semibold">Update Categories</p>
+                    <p class="text-sm opacity-75">Bulk update article categories</p>
+                </button>
+                <button id="bulk-export-by-date" class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg text-center">
+                    <i class="fas fa-calendar text-2xl mb-2"></i>
+                    <p class="font-semibold">Export by Date</p>
+                    <p class="text-sm opacity-75">Export articles by date range</p>
+                </button>
+                <button id="bulk-cleanup-media" class="bg-yellow-600 hover:bg-yellow-700 text-white p-4 rounded-lg text-center">
+                    <i class="fas fa-images text-2xl mb-2"></i>
+                    <p class="font-semibold">Cleanup Media</p>
+                    <p class="text-sm opacity-75">Remove unused media files</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
