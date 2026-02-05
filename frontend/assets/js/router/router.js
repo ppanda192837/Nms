@@ -21,7 +21,7 @@ class Router {
         this.routes.set('admin-manage-categories', 'adminManageCategoriesController');
     }
     
-    async navigate(page) {
+    async navigate(page, pushState = true) {
         try {
             // Show loading
             this.showLoading();
@@ -37,6 +37,11 @@ class Router {
             
             // Load and initialize controller
             await this.loadController(page);
+            
+            // Update browser history
+            if (pushState && page !== this.currentPage) {
+                history.pushState({ page }, '', `#${page}`);
+            }
             
             this.currentPage = page;
             
@@ -81,8 +86,24 @@ class Router {
                     await window[controllerName].init();
                 }
             }
+            
+            // Reinitialize theme button after page load
+            this.initThemeButton();
         } catch (error) {
             console.error('Controller loading error:', error);
+        }
+    }
+    
+    initThemeButton() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle && window.app) {
+            // Remove existing listeners to prevent duplicates
+            themeToggle.replaceWith(themeToggle.cloneNode(true));
+            const newThemeToggle = document.getElementById('theme-toggle');
+            
+            newThemeToggle.addEventListener('click', () => {
+                window.app.theme.toggle();
+            });
         }
     }
     
@@ -113,11 +134,32 @@ class Router {
         }
     }
     
+    back() {
+        // Navigate to admin page if coming from admin sub-pages
+        if (this.currentPage && this.currentPage.startsWith('admin-')) {
+            this.navigate('admin');
+        } else {
+            // Default back to home
+            this.navigate('home');
+        }
+    }
+    
     init() {
         // Handle browser back/forward buttons
         window.addEventListener('popstate', (e) => {
-            const page = e.state?.page || 'home';
-            this.navigate(page);
+            const page = e.state?.page || this.getPageFromHash() || 'home';
+            this.navigate(page, false);
         });
+        
+        // Handle initial page load from hash
+        const initialPage = this.getPageFromHash() || 'home';
+        if (initialPage !== 'home') {
+            this.navigate(initialPage);
+        }
+    }
+    
+    getPageFromHash() {
+        const hash = window.location.hash.substring(1);
+        return this.routes.has(hash) ? hash : null;
     }
 }

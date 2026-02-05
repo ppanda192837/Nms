@@ -23,6 +23,25 @@ class ThemeManager {
         } else {
             document.documentElement.classList.remove('dark');
         }
+        
+        // Update theme button icons
+        this.updateThemeButton();
+    }
+    
+    updateThemeButton() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            const moonIcon = themeToggle.querySelector('.fa-moon');
+            const sunIcon = themeToggle.querySelector('.fa-sun');
+            
+            if (this.currentTheme === 'dark') {
+                if (moonIcon) moonIcon.classList.add('hidden');
+                if (sunIcon) sunIcon.classList.remove('hidden');
+            } else {
+                if (moonIcon) moonIcon.classList.remove('hidden');
+                if (sunIcon) sunIcon.classList.add('hidden');
+            }
+        }
     }
     
     getCurrentTheme() {

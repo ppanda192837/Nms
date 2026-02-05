@@ -42,10 +42,13 @@ class AdminController {
             closeMediaModal.addEventListener('click', () => this.hideMediaModal());
         }
         
-        // Media upload
-        const uploadBtn = document.getElementById('upload-media-btn');
+        // Media upload (support multiple possible element id variants)
+        const uploadBtn = document.getElementById('uploadMediaBtn') || document.getElementById('upload-media-btn');
         if (uploadBtn) {
-            uploadBtn.addEventListener('click', () => this.uploadMedia());
+            uploadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.uploadMedia();
+            });
         }
         
         // System actions
@@ -226,23 +229,26 @@ class AdminController {
             modal.classList.add('hidden');
         }
     }
-        const fileInput = document.getElementById('media-upload');
-        const files = fileInput.files;
-        
+
+    async uploadMedia() {
+        // Support both `mediaUploadInput` (index.html) and `media-upload` ids
+        const fileInput = document.getElementById('mediaUploadInput') || document.getElementById('media-upload');
+        const files = fileInput?.files || [];
+
         if (files.length === 0) {
             window.app.toast.warning('Please select files to upload');
             return;
         }
-        
+
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
         }
-        
+
         try {
             await apiService.uploadMedia(formData);
             window.app.toast.success('Files uploaded successfully');
-            fileInput.value = '';
+            if (fileInput) fileInput.value = '';
             await this.loadData();
             this.render();
         } catch (error) {

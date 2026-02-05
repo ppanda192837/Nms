@@ -16,38 +16,77 @@ def get_query_param(query_params: dict, key: str, default=None):
     return query_params.get(key, default) if query_params else default
 
 def parse_multipart(body: bytes) -> dict:
-    """Parse multipart/form-data"""
+    """A small multipart/form-data parser.
+
+    Returns a dict with 'fields' and 'files'. Each file entry is a dict with
+    keys: filename, content_type, content (bytes).
+    This implementation expects the body to start with the boundary line
+    (which is how multipart bodies are delivered) and uses CRLF separators.
+    """
+    result = {'fields': {}, 'files': []}
     if not body:
-        return {'files': []}
-    
-    # Simple multipart parser
-    boundary_match = re.search(rb'boundary=([^;]+)', body[:200])
-    if not boundary_match:
-        return {'files': []}
-    
-    boundary = boundary_match.group(1)
-    parts = body.split(b'--' + boundary)
-    
-    files = []
-    for part in parts[1:-1]:  # Skip first empty and last closing parts
-        if b'Content-Disposition' in part:
-            # Extract filename
-            filename_match = re.search(rb'filename="([^"]*)"', part)
-            if filename_match:
-                filename = filename_match.group(1).decode('utf-8')
-                
-                # Extract content type
-                content_type_match = re.search(rb'Content-Type: ([^\r\n]+)', part)
-                content_type = content_type_match.group(1).decode('utf-8') if content_type_match else 'application/octet-stream'
-                
-                # Extract file content
-                content_start = part.find(b'\r\n\r\n') + 4
-                content = part[content_start:].rstrip(b'\r\n')
-                
-                files.append({
+        return result
+
+    try:
+        # Find first CRLF to get the first line which should be the boundary
+        first_crlf = body.find(b"\r\n")
+        if first_crlf == -1:
+            return result
+        first_line = body[:first_crlf]
+
+        # Boundary line usually starts with '--', strip it if present
+        if first_line.startswith(b'--'):
+            boundary = first_line[2:]
+        else:
+            boundary = first_line
+
+        parts = body.split(b'--' + boundary)
+        for part in parts:
+            part = part.strip(b'\r\n')
+            if not part or part == b'--':
+                continue
+
+            header_end = part.find(b"\r\n\r\n")
+            if header_end == -1:
+                continue
+
+            headers_block = part[:header_end].decode('utf-8', errors='ignore')
+            content = part[header_end+4:]
+
+            # Parse headers
+            headers = {}
+            for hline in headers_block.split('\r\n'):
+                if ':' in hline:
+                    k, v = hline.split(':', 1)
+                    headers[k.strip().lower()] = v.strip()
+
+            disposition = headers.get('content-disposition', '')
+            params = {}
+            for token in disposition.split(';'):
+                if '=' in token:
+                    k, v = token.strip().split('=', 1)
+                    params[k.strip()] = v.strip().strip('"')
+
+            name = params.get('name')
+            filename = params.get('filename')
+            content_type = headers.get('content-type')
+
+            if filename:
+                result['files'].append({
+                    'name': name,
                     'filename': filename,
                     'content_type': content_type,
                     'content': content
                 })
-    
-    return {'files': files}
+            else:
+                try:
+                    value = content.decode('utf-8')
+                except Exception:
+                    value = ''
+                if name:
+                    result['fields'][name] = value
+
+    except Exception:
+        return result
+
+    return result

@@ -5,7 +5,7 @@
             <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Create Article</h1>
             <p class="text-gray-600 dark:text-gray-400">Add a new article to the system</p>
         </div>
-        <button onclick="window.history.back()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
+        <button onclick="window.app.router.back()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </button>
     </div>
@@ -30,7 +30,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
                 <select id="admin-article-category" 
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
-                    <option value="General">General</option>
+                    <option value="">Select a category...</option>
                 </select>
             </div>
             
@@ -42,7 +42,7 @@
             </div>
             
             <div class="flex justify-end space-x-4">
-                <button type="button" onclick="window.history.back()" 
+                <button type="button" onclick="window.app.router.back()" 
                         class="px-6 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 border border-gray-300 rounded-lg">
                     Cancel
                 </button>

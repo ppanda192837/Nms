@@ -19,8 +19,14 @@ class AdminCreateArticleController {
     }
     
     async loadCategories() {
-        const response = await apiService.getCategories();
-        this.categories = response.data || [];
+        try {
+            const response = await apiService.getCategories();
+            this.categories = response.data || [];
+        } catch (error) {
+            console.error('Failed to load categories:', error);
+            this.categories = [];
+            window.app.toast.error('Failed to load categories');
+        }
     }
     
     setupEventListeners() {
@@ -33,9 +39,16 @@ class AdminCreateArticleController {
     renderCategories() {
         const categorySelect = document.getElementById('admin-article-category');
         if (categorySelect) {
-            categorySelect.innerHTML = this.categories.map(category => `
-                <option value="${category.name}">${category.name}</option>
-            `).join('');
+            if (this.categories.length === 0) {
+                categorySelect.innerHTML = '<option value="">No categories available</option>';
+            } else {
+                categorySelect.innerHTML = `
+                    <option value="">Select a category...</option>
+                    ${this.categories.map(category => `
+                        <option value="${category.name}">${category.name}</option>
+                    `).join('')}
+                `;
+            }
         }
     }
     
@@ -68,3 +81,4 @@ class AdminCreateArticleController {
 }
 
 const adminCreateArticleController = new AdminCreateArticleController();
+window.adminCreateArticleController = adminCreateArticleController;
