@@ -81,10 +81,16 @@ class Router {
     async loadController(page) {
         try {
             const controllerName = this.routes.get(page);
+            console.log('Loading controller for page:', page, 'Controller name:', controllerName);
+            
             if (controllerName && window[controllerName]) {
+                console.log('Controller found:', controllerName);
                 if (typeof window[controllerName].init === 'function') {
+                    console.log('Calling controller init()');
                     await window[controllerName].init();
                 }
+            } else {
+                console.warn('Controller not found:', controllerName);
             }
             
             // Reinitialize theme button after page load

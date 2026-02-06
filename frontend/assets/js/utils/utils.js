@@ -1,51 +1,154 @@
 /**
  * Theme Management Utility
+ * Handles light/dark mode switching with persistence
  */
 
 class ThemeManager {
     constructor() {
-        this.currentTheme = localStorage.getItem('theme') || 'light';
+        this.currentTheme = localStorage.getItem('theme') || this.getSystemTheme();
+        this.THEME_LIGHT = 'light';
+        this.THEME_DARK = 'dark';
     }
     
+    /**
+     * Get system theme preference
+     */
+    getSystemTheme() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return this.THEME_DARK;
+        }
+        return this.THEME_LIGHT;
+    }
+    
+    /**
+     * Initialize theme on page load
+     */
     init() {
         this.applyTheme(this.currentTheme);
+        this.setupSystemThemeListener();
+        this.setupThemeToggleListener();
     }
     
+    /**
+     * Listen for system theme changes
+     */
+    setupSystemThemeListener() {
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    this.currentTheme = e.matches ? this.THEME_DARK : this.THEME_LIGHT;
+                    this.applyTheme(this.currentTheme);
+                }
+            });
+        }
+    }
+    
+    /**
+     * Setup theme toggle button listener
+     */
+    setupThemeToggleListener() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggle();
+            });
+        }
+    }
+    
+    /**
+     * Toggle between light and dark theme
+     */
     toggle() {
-        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        this.currentTheme = this.currentTheme === this.THEME_LIGHT ? this.THEME_DARK : this.THEME_LIGHT;
         this.applyTheme(this.currentTheme);
         localStorage.setItem('theme', this.currentTheme);
+        
+        // Dispatch custom event for theme change
+        window.dispatchEvent(new CustomEvent('themechange', { 
+            detail: { theme: this.currentTheme } 
+        }));
     }
     
+    /**
+     * Apply theme to document
+     */
     applyTheme(theme) {
-        if (theme === 'dark') {
+        if (theme === this.THEME_DARK) {
             document.documentElement.classList.add('dark');
+            document.body.classList.add('dark-mode');
         } else {
             document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark-mode');
         }
+        
+        // Update meta theme-color for mobile browsers
+        this.updateMetaThemeColor(theme);
         
         // Update theme button icons
         this.updateThemeButton();
     }
     
+    /**
+     * Update meta theme color for mobile browsers
+     */
+    updateMetaThemeColor(theme) {
+        let metaTag = document.querySelector('meta[name="theme-color"]');
+        if (!metaTag) {
+            metaTag = document.createElement('meta');
+            metaTag.name = 'theme-color';
+            document.head.appendChild(metaTag);
+        }
+        
+        if (theme === this.THEME_DARK) {
+            metaTag.content = '#1a1a2e';
+        } else {
+            metaTag.content = '#3b82f6';
+        }
+    }
+    
+    /**
+     * Update theme toggle button icons
+     */
     updateThemeButton() {
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             const moonIcon = themeToggle.querySelector('.fa-moon');
             const sunIcon = themeToggle.querySelector('.fa-sun');
             
-            if (this.currentTheme === 'dark') {
-                if (moonIcon) moonIcon.classList.add('hidden');
-                if (sunIcon) sunIcon.classList.remove('hidden');
+            if (this.currentTheme === this.THEME_DARK) {
+                if (moonIcon) moonIcon.style.display = 'none';
+                if (sunIcon) sunIcon.style.display = 'inline';
             } else {
-                if (moonIcon) moonIcon.classList.remove('hidden');
-                if (sunIcon) sunIcon.classList.add('hidden');
+                if (moonIcon) moonIcon.style.display = 'inline';
+                if (sunIcon) sunIcon.style.display = 'none';
             }
         }
     }
     
+    /**
+     * Get current theme
+     */
     getCurrentTheme() {
         return this.currentTheme;
+    }
+    
+    /**
+     * Set specific theme
+     */
+    setTheme(theme) {
+        if ([this.THEME_LIGHT, this.THEME_DARK].includes(theme)) {
+            this.currentTheme = theme;
+            this.applyTheme(this.currentTheme);
+            localStorage.setItem('theme', this.currentTheme);
+        }
+    }
+    
+    /**
+     * Check if dark mode is active
+     */
+    isDarkMode() {
+        return this.currentTheme === this.THEME_DARK;
     }
 }
 

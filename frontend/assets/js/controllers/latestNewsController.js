@@ -18,10 +18,12 @@ class LatestNewsController {
     
     async init() {
         try {
+            console.log('Initializing Latest News Controller');
             await this.loadLatestNews();
             await this.loadFilters();
             this.setupEventListeners();
             this.render();
+            console.log('Latest News Controller initialized successfully');
         } catch (error) {
             console.error('Latest news controller error:', error);
             window.app.toast.error('Failed to load latest news');
@@ -29,9 +31,27 @@ class LatestNewsController {
     }
     
     async loadLatestNews() {
-        const response = await apiService.getLatestNews(this.limit);
-        this.articles = response.data.latest_articles || [];
-        this.applyFilters();
+        try {
+            console.log('Loading latest news with limit:', this.limit);
+            // Fetch articles from the articles endpoint
+            const response = await apiService.getArticles(1, this.limit);
+            console.log('API Response:', response);
+            this.articles = response.data || [];
+            console.log('Articles loaded:', this.articles.length);
+            
+            // Sort articles by creation date (newest first)
+            this.articles.sort((a, b) => {
+                const dateA = new Date(a.created_at || 0);
+                const dateB = new Date(b.created_at || 0);
+                return dateB - dateA;
+            });
+            
+            console.log('Articles sorted by date');
+            this.applyFilters();
+        } catch (error) {
+            console.error('Error loading latest news:', error);
+            throw error;
+        }
     }
     
     async loadFilters() {
@@ -170,7 +190,12 @@ class LatestNewsController {
     
     renderArticles() {
         const container = document.getElementById('latest-articles-container');
-        if (!container) return;
+        if (!container) {
+            console.warn('latest-articles-container not found');
+            return;
+        }
+        
+        console.log('Rendering articles, filtered count:', this.filteredArticles.length);
         
         if (this.filteredArticles.length === 0) {
             container.innerHTML = `
@@ -182,7 +207,9 @@ class LatestNewsController {
             return;
         }
         
-        container.innerHTML = this.filteredArticles.map(article => `
+        container.innerHTML = this.filteredArticles.map(article => {
+            console.log('Rendering article:', article.title);
+            return `
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 card">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
@@ -219,7 +246,7 @@ class LatestNewsController {
                     </div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     }
     
     async loadMore() {
@@ -301,3 +328,4 @@ class LatestNewsController {
 }
 
 const latestNewsController = new LatestNewsController();
+window.latestNewsController = latestNewsController;

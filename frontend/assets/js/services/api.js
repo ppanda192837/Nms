@@ -18,9 +18,13 @@ class ApiService {
         
         const config = { ...defaultOptions, ...options };
         
+        console.log('API Request:', url);
+        
         try {
             const response = await fetch(url, config);
             const data = await response.json();
+            
+            console.log('API Response status:', response.status, 'URL:', url);
             
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -28,13 +32,14 @@ class ApiService {
             
             return data;
         } catch (error) {
-            console.error('API request failed:', error);
+            console.error('API request failed:', error, 'URL:', url);
             throw error;
         }
     }
     
     // Article endpoints
     async getArticles(page = 1, limit = 10) {
+        console.log('getArticles called with page:', page, 'limit:', limit);
         return this.request(`/api/articles?page=${page}&limit=${limit}`);
     }
     
@@ -135,3 +140,6 @@ class ApiService {
 
 // Create singleton instance
 const apiService = new ApiService();
+
+// Make it globally available
+window.apiService = apiService;

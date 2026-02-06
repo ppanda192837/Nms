@@ -1,6 +1,8 @@
 /* Custom styles for News Management System */
 
 /* Theme variables */
+
+/* Theme variables */
 :root {
   --primary-color: #3b82f6;
   --secondary-color: #6366f1;
@@ -12,16 +14,23 @@
   /* Light theme variables */
   --bg-primary: #ffffff;
   --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
   --text-primary: #111827;
   --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Dark theme */
+html.dark,
 .dark {
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f3460;
+  --text-primary: #ecf0f1;
+  --text-secondary: #bdc3c7;
+  --border-color: #374151;
+  --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Smooth transitions */
@@ -231,6 +240,129 @@
   top: 50%;
   transform: translateY(-50%);
   color: #9ca3af;
+}
+
+.dark .search-container .search-icon {
+  color: #9ca3af;
+}
+
+/* Dark mode text colors */
+html.dark body,
+html.dark .bg-gray-50 {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+html.dark .bg-white {
+  background-color: var(--bg-primary);
+}
+
+html.dark .bg-gray-100,
+html.dark .bg-gray-200 {
+  background-color: var(--bg-tertiary);
+}
+
+html.dark .text-gray-900 {
+  color: var(--text-primary);
+}
+
+html.dark .text-gray-700 {
+  color: var(--text-secondary);
+}
+
+html.dark .text-gray-600 {
+  color: var(--text-secondary);
+}
+
+html.dark .border-gray-300,
+html.dark .border-gray-200 {
+  border-color: var(--border-color);
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  background-color: var(--bg-primary);
+  border-color: var(--primary-color);
+}
+
+/* Dark mode for cards and containers */
+html.dark .bg-blue-50,
+html.dark .bg-green-50,
+html.dark .bg-purple-50,
+html.dark .bg-orange-50 {
+  background-color: var(--bg-tertiary);
+}
+
+html.dark .bg-blue-700,
+html.dark .bg-green-700,
+html.dark .bg-purple-700 {
+  background-color: var(--bg-tertiary);
+}
+
+html.dark .shadow {
+  box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+html.dark .shadow-lg {
+  box-shadow: 0 10px 15px var(--shadow-color);
+}
+
+html.dark .shadow-xl {
+  box-shadow: 0 20px 25px var(--shadow-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: var(--transition);
+}
+
+#theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+#theme-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Modal dark mode */
+html.dark #articleModal,
+html.dark #editModal {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+html.dark #articleModal .bg-white,
+html.dark #editModal .bg-white {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Dark mode for gradients and special elements */
+html.dark .gradient-to-r {
+  background: linear-gradient(to right, #1e3a8a, #1e40af);
+}
+
+/* Hidden utility for light/dark icons */
+.hidden {
+  display: none;
 }
 
 /* Media queries for responsive design */

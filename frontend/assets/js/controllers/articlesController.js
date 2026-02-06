@@ -41,6 +41,12 @@ class ArticlesController {
     }
     
     setupEventListeners() {
+        // Article count button
+        const articleCountBtn = document.getElementById('article-count-btn');
+        if (articleCountBtn) {
+            articleCountBtn.addEventListener('click', () => this.showArticleCountModal());
+        }
+        
         // Create article button
         const createBtn = document.getElementById('create-article-btn');
         if (createBtn) {
@@ -108,6 +114,29 @@ class ArticlesController {
     }
     
     setupModalEvents() {
+        // Article count modal
+        const countModal = document.getElementById('article-count-modal');
+        const closeCountBtn = document.getElementById('close-count-modal');
+        const closeCountBtnAlt = document.getElementById('close-count-modal-btn');
+        
+        if (closeCountBtn) {
+            closeCountBtn.addEventListener('click', () => this.hideArticleCountModal());
+        }
+        
+        if (closeCountBtnAlt) {
+            closeCountBtnAlt.addEventListener('click', () => this.hideArticleCountModal());
+        }
+        
+        // Close modal on backdrop click
+        if (countModal) {
+            countModal.addEventListener('click', (e) => {
+                if (e.target === countModal) {
+                    this.hideArticleCountModal();
+                }
+            });
+        }
+        
+        // Article modal
         const modal = document.getElementById('article-modal');
         const closeBtn = document.getElementById('close-modal');
         const cancelBtn = document.getElementById('cancel-btn');
@@ -603,6 +632,40 @@ class ArticlesController {
             month: 'short',
             day: 'numeric'
         });
+    }
+    
+    async showArticleCountModal() {
+        const modal = document.getElementById('article-count-modal');
+        if (!modal) return;
+        
+        modal.classList.remove('hidden');
+        
+        try {
+            // Get total count by fetching all articles
+            const response = await apiService.getArticles(1, 1000);
+            const totalCount = response.data ? response.data.length : 0;
+            
+            const displayElement = document.getElementById('article-count-display');
+            const statsElement = document.getElementById('article-stats');
+            
+            if (displayElement) {
+                displayElement.textContent = totalCount;
+            }
+            
+            if (statsElement) {
+                statsElement.textContent = `Total articles in the application: ${totalCount}`;
+            }
+        } catch (error) {
+            console.error('Failed to fetch article count:', error);
+            window.app.toast.error('Failed to fetch article count');
+        }
+    }
+    
+    hideArticleCountModal() {
+        const modal = document.getElementById('article-count-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     }
 }
 

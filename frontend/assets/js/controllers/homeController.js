@@ -201,3 +201,4 @@ class HomeController {
 }
 
 const homeController = new HomeController();
+window.homeController = homeController;

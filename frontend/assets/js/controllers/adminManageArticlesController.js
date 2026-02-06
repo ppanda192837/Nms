@@ -37,6 +37,12 @@ class AdminManageArticlesController {
     }
     
     setupEventListeners() {
+        // Article count button
+        const articleCountBtn = document.getElementById('admin-article-count-btn');
+        if (articleCountBtn) {
+            articleCountBtn.addEventListener('click', () => this.showArticleCountModal());
+        }
+        
         // Search
         const searchInput = document.getElementById('admin-search-articles');
         if (searchInput) {
@@ -67,10 +73,34 @@ class AdminManageArticlesController {
             bulkDeleteBtn.addEventListener('click', () => this.bulkDeleteArticles());
         }
         
-        // Modal events\n        this.setupModalEvents();
+        // Modal events
+        this.setupModalEvents();
     }
     
     setupModalEvents() {
+        // Article count modal
+        const countModal = document.getElementById('admin-article-count-modal');
+        const closeCountBtn = document.getElementById('admin-close-count-modal');
+        const closeCountBtnAlt = document.getElementById('admin-close-count-modal-btn');
+        
+        if (closeCountBtn) {
+            closeCountBtn.addEventListener('click', () => this.hideArticleCountModal());
+        }
+        
+        if (closeCountBtnAlt) {
+            closeCountBtnAlt.addEventListener('click', () => this.hideArticleCountModal());
+        }
+        
+        // Close modal on backdrop click
+        if (countModal) {
+            countModal.addEventListener('click', (e) => {
+                if (e.target === countModal) {
+                    this.hideArticleCountModal();
+                }
+            });
+        }
+        
+        // Edit article modal
         const modal = document.getElementById('admin-edit-article-modal');
         const closeBtn = document.getElementById('admin-close-edit-modal');
         const cancelBtn = document.getElementById('admin-cancel-edit-btn');
@@ -315,6 +345,40 @@ class AdminManageArticlesController {
             month: 'short',
             day: 'numeric'
         });
+    }
+    
+    async showArticleCountModal() {
+        const modal = document.getElementById('admin-article-count-modal');
+        if (!modal) return;
+        
+        modal.classList.remove('hidden');
+        
+        try {
+            // Get total count by fetching all articles
+            const response = await apiService.getArticles(1, 1000);
+            const totalCount = response.data ? response.data.length : 0;
+            
+            const displayElement = document.getElementById('admin-article-count-display');
+            const statsElement = document.getElementById('admin-article-stats');
+            
+            if (displayElement) {
+                displayElement.textContent = totalCount;
+            }
+            
+            if (statsElement) {
+                statsElement.textContent = `Total articles in the application: ${totalCount}`;
+            }
+        } catch (error) {
+            console.error('Failed to fetch article count:', error);
+            window.app.toast.error('Failed to fetch article count');
+        }
+    }
+    
+    hideArticleCountModal() {
+        const modal = document.getElementById('admin-article-count-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     }
 }
 
