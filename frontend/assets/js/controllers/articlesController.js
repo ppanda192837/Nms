@@ -199,7 +199,7 @@ class ArticlesController {
             container.innerHTML = `
                 <div class="col-span-full text-center py-8">
                     <i class="fas fa-newspaper text-4xl text-gray-400 mb-4"></i>
-                    <p class="text-gray-600 dark:text-gray-400">No articles found</p>
+                    <p class="text-gray-600">No articles found</p>
                 </div>
             `;
             return;
@@ -213,14 +213,14 @@ class ArticlesController {
     renderGridItem(article) {
         const isSelected = this.selectedArticles.has(article.id);
         return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden card article-card ${isSelected ? 'ring-2 ring-blue-500' : ''}">
+            <div class="bg-gray-50 rounded-lg shadow p-6 card article-card ${isSelected ? 'ring-2 ring-blue-500' : ''}">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <input type="checkbox" ${isSelected ? 'checked' : ''} 
                                    onchange="articlesController.toggleArticleSelection(${article.id})" 
                                    class="rounded border-gray-300">
-                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            <span class="category-badge bg-blue-100 text-blue-800">
                                 ${article.category || 'General'}
                             </span>
                         </div>
@@ -243,13 +243,13 @@ class ArticlesController {
                             </button>
                         </div>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                         ${article.title}
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
+                    <p class="text-gray-700 text-sm mb-4 line-clamp-3">
                         ${article.content.substring(0, 150)}...
                     </p>
-                    <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center justify-between text-sm text-gray-600">
                         <span>By ${article.author || 'Anonymous'}</span>
                         <span>${this.formatDate(article.created_at)}</span>
                     </div>
@@ -261,7 +261,7 @@ class ArticlesController {
     renderListItem(article) {
         const isSelected = this.selectedArticles.has(article.id);
         return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 card ${isSelected ? 'ring-2 ring-blue-500' : ''}">
+            <div class="bg-gray-50 rounded-lg shadow p-6 card ${isSelected ? 'ring-2 ring-blue-500' : ''}">
                 <div class="flex items-start justify-between">
                     <div class="flex items-start space-x-3">
                         <input type="checkbox" ${isSelected ? 'checked' : ''} 
@@ -269,20 +269,20 @@ class ArticlesController {
                                class="mt-1 rounded border-gray-300">
                         <div class="flex-1">
                             <div class="flex items-center space-x-2 mb-2">
-                                <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                <span class="category-badge bg-blue-100 text-blue-800">
                                     ${article.category || 'General'}
                                 </span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">
+                                <span class="text-sm text-gray-600">
                                     ${this.formatDate(article.created_at)}
                                 </span>
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">
                                 ${article.title}
                             </h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-2">
+                            <p class="text-gray-700 mb-2">
                                 ${article.content.substring(0, 200)}...
                             </p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                            <p class="text-sm text-gray-600">
                                 By ${article.author || 'Anonymous'}
                             </p>
                         </div>
@@ -559,25 +559,25 @@ class ArticlesController {
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
             modal.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-4xl max-h-screen overflow-y-auto">
+                <div class="bg-gray-50 p-6 rounded-lg w-full max-w-4xl max-h-screen overflow-y-auto">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">${article.title}</h2>
+                        <h2 class="text-2xl font-bold text-gray-900">${article.title}</h2>
                         <button onclick="this.parentElement.parentElement.parentElement.remove()" 
                                 class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-times text-xl"></i>
                         </button>
                     </div>
                     <div class="mb-4">
-                        <div class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
-                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                        <div class="flex items-center space-x-4 text-sm text-gray-600">
+                            <span class="category-badge bg-blue-100 text-blue-800">
                                 ${article.category || 'General'}
                             </span>
                             <span>By ${article.author || 'Anonymous'}</span>
                             <span>${this.formatDate(article.created_at)}</span>
                         </div>
                     </div>
-                    <div class="prose dark:prose-invert max-w-none">
-                        <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">${article.content}</p>
+                    <div class="prose max-w-none">
+                        <p class="text-gray-800 whitespace-pre-wrap">${article.content}</p>
                     </div>
                 </div>
             `;

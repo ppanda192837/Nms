@@ -121,38 +121,34 @@ class AdminController {
             {
                 title: 'Total Articles',
                 value: this.statistics.total_articles || 0,
-                icon: 'fas fa-newspaper',
-                color: 'bg-blue-500'
+                icon: 'fas fa-newspaper'
             },
             {
                 title: 'Categories',
                 value: this.statistics.total_categories || 0,
-                icon: 'fas fa-tags',
-                color: 'bg-green-500'
+                icon: 'fas fa-tags'
             },
             {
                 title: 'Authors',
                 value: this.statistics.total_authors || 0,
-                icon: 'fas fa-users',
-                color: 'bg-purple-500'
+                icon: 'fas fa-users'
             },
             {
                 title: 'Media Files',
                 value: this.mediaFiles.length,
-                icon: 'fas fa-images',
-                color: 'bg-orange-500'
+                icon: 'fas fa-images'
             }
         ];
         
         container.innerHTML = stats.map(stat => `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 card">
+            <div class="stat-card card">
                 <div class="flex items-center">
-                    <div class="${stat.color} text-white p-3 rounded-lg mr-4">
-                        <i class="${stat.icon} text-xl"></i>
+                    <div class="stat-card-icon mr-4">
+                        <i class="${stat.icon}"></i>
                     </div>
-                    <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">${stat.title}</p>
-                        <p class="text-2xl font-bold text-gray-800 dark:text-white">${stat.value}</p>
+                    <div class="stat-card-content">
+                        <p class="stat-card-label">${stat.title}</p>
+                        <p class="stat-card-value">${stat.value}</p>
                     </div>
                 </div>
             </div>

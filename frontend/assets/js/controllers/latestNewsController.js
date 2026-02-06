@@ -201,7 +201,7 @@ class LatestNewsController {
             container.innerHTML = `
                 <div class="text-center py-8">
                     <i class="fas fa-newspaper text-4xl text-gray-400 mb-4"></i>
-                    <p class="text-gray-600 dark:text-gray-400">No latest news available</p>
+                    <p class="text-gray-600">No latest news available</p>
                 </div>
             `;
             return;
@@ -210,24 +210,24 @@ class LatestNewsController {
         container.innerHTML = this.filteredArticles.map(article => {
             console.log('Rendering article:', article.title);
             return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 card">
+            <div class="bg-gray-50 rounded-lg shadow p-6 card">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
                         <div class="flex items-center space-x-2 mb-2">
-                            <span class="category-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            <span class="category-badge bg-green-100 text-green-800">
                                 ${article.category || 'General'}
                             </span>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                            <span class="text-sm text-gray-600">
                                 ${this.formatDate(article.created_at)}
                             </span>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">
                             ${article.title}
                         </h3>
-                        <p class="text-gray-600 dark:text-gray-300 mb-2">
+                        <p class="text-gray-700 mb-2">
                             ${article.content.substring(0, 200)}...
                         </p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                        <p class="text-sm text-gray-600">
                             By ${article.author || 'Anonymous'}
                         </p>
                     </div>

@@ -1,6 +1,6 @@
 <div class="space-y-6">
     <!-- Hero Section -->
-    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 rounded-lg">
+    <div class="indigo-header text-white p-8 rounded-lg">
         <h1 class="text-3xl font-bold mb-4">Welcome to News Management System</h1>
         <p class="text-lg opacity-90">Manage your news articles, categories, and media efficiently</p>
     </div>
@@ -11,21 +11,21 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow p-6">
         <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Quick Actions</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button onclick="if(window.app && window.app.router) { window.app.router.navigate('articles'); setTimeout(() => { const btn = document.getElementById('create-article-btn'); if(btn) btn.click(); }, 200); }" 
-                    class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-plus text-2xl mb-2"></i>
                 <p class="font-semibold">Create Article</p>
             </button>
             <button onclick="if(window.app && window.app.router) { window.app.router.navigate('categories'); setTimeout(() => { const btn = document.getElementById('create-category-btn'); if(btn) btn.click(); }, 200); }" 
-                    class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-tags text-2xl mb-2"></i>
                 <p class="font-semibold">Add Category</p>
             </button>
             <button onclick="if(window.app && window.app.router) window.app.router.navigate('admin')" 
-                    class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-cog text-2xl mb-2"></i>
                 <p class="font-semibold">Admin Panel</p>
             </button>

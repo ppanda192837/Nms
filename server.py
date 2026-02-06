@@ -59,4 +59,17 @@ def run_server(host: str = '', port: int = 8443, use_ssl: bool = True):
         sys.exit(0)
 
 if __name__ == '__main__':
-    run_server()
+    # Allow disabling SSL for development (useful when running behind HTTP proxy)
+    import argparse
+
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument('--no-ssl', action='store_true', help='Disable SSL (use HTTP)')
+    args, _ = parser.parse_known_args()
+
+    use_ssl_env = os.environ.get('USE_SSL')
+    if use_ssl_env is not None:
+        use_ssl = use_ssl_env.lower() not in ('0', 'false', 'no')
+    else:
+        use_ssl = not args.no_ssl
+
+    run_server(use_ssl=use_ssl)

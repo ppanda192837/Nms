@@ -1,34 +1,34 @@
 <div class="space-y-6">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-lg">
+    <div class="indigo-header p-6 rounded-lg">
         <h1 class="text-3xl font-bold mb-2">Admin Dashboard</h1>
         <p class="text-lg opacity-90">Manage your news system</p>
     </div>
 
     <!-- Admin Navigation -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow p-6">
         <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Content Management</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <button onclick="window.app.router.navigate('admin-create-article')" 
-                    class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-plus text-2xl mb-2"></i>
                 <p class="font-semibold">Create Article</p>
                 <p class="text-sm opacity-75">Add new articles</p>
             </button>
             <button onclick="window.app.router.navigate('admin-manage-articles')" 
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-newspaper text-2xl mb-2"></i>
                 <p class="font-semibold">Manage Articles</p>
                 <p class="text-sm opacity-75">Edit and delete articles</p>
             </button>
             <button onclick="window.app.router.navigate('admin-manage-categories')" 
-                    class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-tags text-2xl mb-2"></i>
                 <p class="font-semibold">Manage Categories</p>
                 <p class="text-sm opacity-75">Create and edit categories</p>
             </button>
             <button id="manage-media-btn" 
-                    class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg text-center">
+                    class="indigo-button text-white p-4 rounded-lg text-center">
                 <i class="fas fa-images text-2xl mb-2"></i>
                 <p class="font-semibold">Manage Media</p>
                 <p class="text-sm opacity-75">Upload and manage files</p>
@@ -42,26 +42,26 @@
     </div>
 
     <!-- System Actions -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
         <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">System Actions</h2>
         <div class="grid grid-cols-1 gap-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button id="export-data-btn" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                <button id="export-data-btn" class="w-full indigo-button text-white px-4 py-2 rounded-lg">
                     <i class="fas fa-download mr-2"></i>Export All Data
                 </button>
-                <button id="import-data-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                <button id="import-data-btn" class="w-full indigo-button text-white px-4 py-2 rounded-lg">
                     <i class="fas fa-upload mr-2"></i>Import Data
                 </button>
-                <button id="clear-cache-btn" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg">
+                <button id="clear-cache-btn" class="w-full indigo-button text-white px-4 py-2 rounded-lg">
                     <i class="fas fa-broom mr-2"></i>Clear Cache
                 </button>
-                <button id="backup-db-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+                <button id="backup-db-btn" class="w-full indigo-button text-white px-4 py-2 rounded-lg">
                     <i class="fas fa-database mr-2"></i>Backup Database
                 </button>
-                <button id="bulk-operations-btn" class="w-full bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg">
+                <button id="bulk-operations-btn" class="w-full indigo-button text-white px-4 py-2 rounded-lg">
                     <i class="fas fa-tasks mr-2"></i>Bulk Operations
                 </button>
-                <button id="system-health-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
+                <button id="system-health-btn" class="w-full indigo-button text-white px-4 py-2 rounded-lg">
                     <i class="fas fa-heartbeat mr-2"></i>System Health
                 </button>
             </div>
@@ -131,17 +131,17 @@
                     <p class="font-semibold">Delete Old Articles</p>
                     <p class="text-sm opacity-75">Remove articles older than 1 year</p>
                 </button>
-                <button id="bulk-update-categories" class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg text-center">
+                <button id="bulk-update-categories" class="indigo-button text-white p-4 rounded-lg text-center">
                     <i class="fas fa-tags text-2xl mb-2"></i>
                     <p class="font-semibold">Update Categories</p>
                     <p class="text-sm opacity-75">Bulk update article categories</p>
                 </button>
-                <button id="bulk-export-by-date" class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg text-center">
+                <button id="bulk-export-by-date" class="indigo-button text-white p-4 rounded-lg text-center">
                     <i class="fas fa-calendar text-2xl mb-2"></i>
                     <p class="font-semibold">Export by Date</p>
                     <p class="text-sm opacity-75">Export articles by date range</p>
                 </button>
-                <button id="bulk-cleanup-media" class="bg-yellow-600 hover:bg-yellow-700 text-white p-4 rounded-lg text-center">
+                <button id="bulk-cleanup-media" class="indigo-button text-white p-4 rounded-lg text-center">
                     <i class="fas fa-images text-2xl mb-2"></i>
                     <p class="font-semibold">Cleanup Media</p>
                     <p class="text-sm opacity-75">Remove unused media files</p>

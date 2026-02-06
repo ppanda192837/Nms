@@ -6,16 +6,12 @@ class App {
     constructor() {
         this.router = new Router();
         this.state = stateManager;
-        this.theme = new ThemeManager();
         this.toast = new ToastManager();
         
         this.init();
     }
     
     init() {
-        // Initialize theme
-        this.theme.init();
-        
         // Initialize router
         this.router.init();
         
@@ -37,14 +33,6 @@ class App {
                 this.router.navigate(page);
             }
         });
-        
-        // Theme toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                this.theme.toggle();
-            });
-        }
         
         // Global error handling
         window.addEventListener('error', (e) => {

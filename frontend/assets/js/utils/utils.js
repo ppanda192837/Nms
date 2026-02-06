@@ -1,158 +1,4 @@
 /**
- * Theme Management Utility
- * Handles light/dark mode switching with persistence
- */
-
-class ThemeManager {
-    constructor() {
-        this.currentTheme = localStorage.getItem('theme') || this.getSystemTheme();
-        this.THEME_LIGHT = 'light';
-        this.THEME_DARK = 'dark';
-    }
-    
-    /**
-     * Get system theme preference
-     */
-    getSystemTheme() {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return this.THEME_DARK;
-        }
-        return this.THEME_LIGHT;
-    }
-    
-    /**
-     * Initialize theme on page load
-     */
-    init() {
-        this.applyTheme(this.currentTheme);
-        this.setupSystemThemeListener();
-        this.setupThemeToggleListener();
-    }
-    
-    /**
-     * Listen for system theme changes
-     */
-    setupSystemThemeListener() {
-        if (window.matchMedia) {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                if (!localStorage.getItem('theme')) {
-                    this.currentTheme = e.matches ? this.THEME_DARK : this.THEME_LIGHT;
-                    this.applyTheme(this.currentTheme);
-                }
-            });
-        }
-    }
-    
-    /**
-     * Setup theme toggle button listener
-     */
-    setupThemeToggleListener() {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.toggle();
-            });
-        }
-    }
-    
-    /**
-     * Toggle between light and dark theme
-     */
-    toggle() {
-        this.currentTheme = this.currentTheme === this.THEME_LIGHT ? this.THEME_DARK : this.THEME_LIGHT;
-        this.applyTheme(this.currentTheme);
-        localStorage.setItem('theme', this.currentTheme);
-        
-        // Dispatch custom event for theme change
-        window.dispatchEvent(new CustomEvent('themechange', { 
-            detail: { theme: this.currentTheme } 
-        }));
-    }
-    
-    /**
-     * Apply theme to document
-     */
-    applyTheme(theme) {
-        if (theme === this.THEME_DARK) {
-            document.documentElement.classList.add('dark');
-            document.body.classList.add('dark-mode');
-        } else {
-            document.documentElement.classList.remove('dark');
-            document.body.classList.remove('dark-mode');
-        }
-        
-        // Update meta theme-color for mobile browsers
-        this.updateMetaThemeColor(theme);
-        
-        // Update theme button icons
-        this.updateThemeButton();
-    }
-    
-    /**
-     * Update meta theme color for mobile browsers
-     */
-    updateMetaThemeColor(theme) {
-        let metaTag = document.querySelector('meta[name="theme-color"]');
-        if (!metaTag) {
-            metaTag = document.createElement('meta');
-            metaTag.name = 'theme-color';
-            document.head.appendChild(metaTag);
-        }
-        
-        if (theme === this.THEME_DARK) {
-            metaTag.content = '#1a1a2e';
-        } else {
-            metaTag.content = '#3b82f6';
-        }
-    }
-    
-    /**
-     * Update theme toggle button icons
-     */
-    updateThemeButton() {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            const moonIcon = themeToggle.querySelector('.fa-moon');
-            const sunIcon = themeToggle.querySelector('.fa-sun');
-            
-            if (this.currentTheme === this.THEME_DARK) {
-                if (moonIcon) moonIcon.style.display = 'none';
-                if (sunIcon) sunIcon.style.display = 'inline';
-            } else {
-                if (moonIcon) moonIcon.style.display = 'inline';
-                if (sunIcon) sunIcon.style.display = 'none';
-            }
-        }
-    }
-    
-    /**
-     * Get current theme
-     */
-    getCurrentTheme() {
-        return this.currentTheme;
-    }
-    
-    /**
-     * Set specific theme
-     */
-    setTheme(theme) {
-        if ([this.THEME_LIGHT, this.THEME_DARK].includes(theme)) {
-            this.currentTheme = theme;
-            this.applyTheme(this.currentTheme);
-            localStorage.setItem('theme', this.currentTheme);
-        }
-    }
-    
-    /**
-     * Check if dark mode is active
-     */
-    isDarkMode() {
-        return this.currentTheme === this.THEME_DARK;
-    }
-}
-
-/**
  * Toast Notification Manager
  */
 
@@ -239,14 +85,14 @@ class ToastManager {
 class SkeletonLoader {
     static createArticleCard() {
         return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 animate-pulse">
-                <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-4"></div>
-                <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-2"></div>
-                <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-full mb-2"></div>
-                <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-2/3 mb-4"></div>
+            <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+                <div class="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
+                <div class="h-3 bg-gray-300 rounded w-1/2 mb-2"></div>
+                <div class="h-3 bg-gray-300 rounded w-full mb-2"></div>
+                <div class="h-3 bg-gray-300 rounded w-2/3 mb-4"></div>
                 <div class="flex justify-between items-center">
-                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
-                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-16"></div>
+                    <div class="h-3 bg-gray-300 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-300 rounded w-16"></div>
                 </div>
             </div>
         `;
@@ -254,12 +100,12 @@ class SkeletonLoader {
     
     static createStatCard() {
         return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 animate-pulse">
+            <div class="bg-white rounded-lg shadow p-6 animate-pulse">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-lg mr-4"></div>
+                    <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
                     <div class="flex-1">
-                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
-                        <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+                        <div class="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                        <div class="h-6 bg-gray-300 rounded w-1/2"></div>
                     </div>
                 </div>
             </div>
@@ -268,12 +114,12 @@ class SkeletonLoader {
     
     static createListItem() {
         return `
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 animate-pulse">
+            <div class="bg-white rounded-lg shadow p-4 animate-pulse">
                 <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                    <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
                     <div class="flex-1">
-                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
-                        <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+                        <div class="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                        <div class="h-3 bg-gray-300 rounded w-1/2"></div>
                     </div>
                 </div>
             </div>
