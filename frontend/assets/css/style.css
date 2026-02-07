@@ -17,11 +17,36 @@
   --indigo-light: #e0e7ff;
   --indigo-medium: #6366f1;
   --indigo-dark: #4f46e5;
+  --bg-gradient-start: #eef2ff;
+  --bg-gradient-end: #eef1ff;
 }
 
 /* Smooth transitions */
 * {
   transition: var(--transition);
+}
+
+/* Page background for landing and general pages */
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg-gradient-start) 0%, #f8fafc 40%, #ffffff 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--text-primary);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 /* Navigation styles */
@@ -94,13 +119,59 @@
 /* Modal animations */
 .modal {
   opacity: 0;
-  transform: scale(0.9);
-  transition: var(--transition);
+  transform: translateY(-8px) scale(0.98);
+  transition: var(--transition), opacity 0.25s ease;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal.show {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0) scale(1);
+}
+
+/* Modal overlay to dim the page */
+.modal-overlay {
+  position: fixed;
+  inset: 0px;
+  background: linear-gradient(180deg, rgba(79,70,229,0.12), rgba(99,102,241,0.08));
+  backdrop-filter: blur(4px) saturate(120%);
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal content with indigo styling */
+.modal-content {
+  background: linear-gradient(180deg, #ffffff, #fbfbff);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(79,70,229,0.14);
+  border: 1px solid rgba(99,102,241,0.12);
+  max-height: 85vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Scroll lock - prevent body scroll when modal is open */
+.scroll-lock {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Toast notifications */
@@ -147,7 +218,7 @@
 
 /* Article card styles */
 .article-card {
-  background: var(--bg-primary);
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,255,0.85));
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -216,10 +287,68 @@
 
 /* Indigo Containers - Light Mode */
 .indigo-container {
-  background: linear-gradient(135deg, var(--indigo-light) 0%, #fafafa 100%);
+  background: linear-gradient(135deg, rgba(224,231,255,0.6) 0%, rgba(250,250,250,0.85) 100%);
   border-radius: 12px;
   padding: 24px;
   border: 1px solid #e0e7ff;
+}
+
+/* Landing hero section - allows full page scrolling with background */
+.landing-hero {
+  min-height: 100%;
+  width: 100%;
+  padding: 3rem 1.5rem;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.landing-hero .hero-card {
+  max-width: 1100px;
+  width: 100%;
+  padding: 48px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(248,250,255,0.85));
+  box-shadow: 0 25px 60px rgba(79,70,229,0.08);
+  border: 1px solid rgba(99,102,241,0.08);
+}
+
+.landing-hero h1 {
+  font-size: 2.25rem;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  color: var(--indigo-dark);
+}
+
+.landing-hero p.lead {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+/* Stylish indigo tiles used across landing pages */
+.tile {
+  border-radius: 14px;
+  padding: 20px;
+  color: white;
+  background: linear-gradient(135deg, var(--indigo-medium), var(--indigo-dark));
+  box-shadow: 0 12px 30px rgba(79,70,229,0.12);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.tile .tile-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.tile .tile-sub {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.95rem;
+}
+
+.tile:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 30px 80px rgba(79,70,229,0.16);
 }
 
 .indigo-header {
@@ -326,12 +455,70 @@
   }
 }
 
+/* Scrollbar styling - indigo theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgba(99,102,241,0.04), rgba(79,70,229,0.03));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #4f46e5);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4f46e5, #4338ca);
+  background-clip: padding-box;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: #6366f1 #f3f4f6;
+  scrollbar-width: thin;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 10px 30px rgba(99,102,241,0.3);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(99,102,241,0.4);
+}
+
+.back-to-top.show {
+  display: flex;
+}
+
 /* Print styles */
 @media print {
   .no-print {
     display: none !important;
   }
-  
+
   body {
     background: white !important;
     color: black !important;

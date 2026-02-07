@@ -1,11 +1,13 @@
-<div class="space-y-6">
+<div class="landing-hero"><div class="space-y-6">
     <!-- Header -->
-    <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Categories Management</h1>
-        <div class="flex space-x-2">
-            <button id="export-categories-btn" class="indigo-button text-white px-4 py-2 rounded-lg">
-                <i class="fas fa-download mr-2"></i>Export
-            </button>
+    <div class="indigo-header">
+        <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-white">Categories Management</h1>
+            <div class="flex space-x-2">
+                <button id="export-categories-btn" class="bg-white text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+            </div>
         </div>
     </div>
 
@@ -30,6 +32,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="categories-container">
         <!-- Categories will be loaded here -->
     </div>
+</div>
 </div>
 
 <!-- Create/Edit Category Modal -->

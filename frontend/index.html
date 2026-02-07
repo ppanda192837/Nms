@@ -78,9 +78,9 @@
         </nav>
 
         <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 dark:bg-gray-900 transition-colors duration-300">
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-colors duration-300">
             <!-- Home Page -->
-            <div x-show="currentPage === 'home'" class="fade-in">
+            <div x-show="currentPage === 'home'" class="fade-in landing-hero">
                 <div class="mb-12">
                     <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">Welcome to News Hub</h2>
                     <p class="text-xl text-gray-600 dark:text-gray-300 transition-colors duration-300">Stay informed with the latest news and articles</p>
@@ -287,65 +287,69 @@
             </div>
         </main>
 
-        <!-- Article Modal -->
-        <div id="articleModal" class="hidden fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4 transition-colors duration-300">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl dark:shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transition-colors duration-300">
-                <div class="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-6 py-4 flex justify-between items-center transition-colors duration-300">
-                    <h2 id="modalTitle" class="text-2xl font-bold text-white"></h2>
-                    <button onclick="closeArticleModal()" class="text-white hover:text-gray-200 transition">
-                        <i class="fas fa-times text-2xl"></i>
-                    </button>
-                </div>
-                <div class="p-6">
-                    <div class="mb-4 space-y-2">
-                        <p class="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300"><span class="font-semibold">Author:</span> <span id="modalAuthor">N/A</span></p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300"><span class="font-semibold">Category:</span> <span id="modalCategory">N/A</span></p>
-                        <p class="text-sm text-gray-500 dark:text-gray-500 transition-colors duration-300"><span class="font-semibold">Published:</span> <span id="modalDate"></span></p>
+                <!-- Article Modal -->
+                <div id="articleModal" class="modal-overlay hidden">
+                    <div class="modal flex items-center justify-center p-4">
+                        <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-xl dark:shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transition-colors duration-300">
+                            <div class="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-6 py-4 flex justify-between items-center transition-colors duration-300">
+                                <h2 id="modalTitle" class="text-2xl font-bold text-white"></h2>
+                                <button onclick="closeArticleModal()" class="text-white hover:text-gray-200 transition">
+                                    <i class="fas fa-times text-2xl"></i>
+                                </button>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-4 space-y-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300"><span class="font-semibold">Author:</span> <span id="modalAuthor">N/A</span></p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300"><span class="font-semibold">Category:</span> <span id="modalCategory">N/A</span></p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-500 transition-colors duration-300"><span class="font-semibold">Published:</span> <span id="modalDate"></span></p>
+                                </div>
+                                <hr class="my-4 border-gray-300 dark:border-gray-600 transition-colors duration-300">
+                                <div id="modalContent" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap prose prose-sm max-w-none transition-colors duration-300"></div>
+                            </div>
+                        </div>
                     </div>
-                    <hr class="my-4 border-gray-300 dark:border-gray-600 transition-colors duration-300">
-                    <div id="modalContent" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap prose prose-sm max-w-none transition-colors duration-300"></div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Edit Modal -->
-        <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4 transition-colors duration-300">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl dark:shadow-2xl max-w-2xl w-full transition-colors duration-300">
-                <div class="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-6 py-4 flex justify-between items-center transition-colors duration-300">
-                    <h2 class="text-2xl font-bold text-white">Edit Article</h2>
-                    <button onclick="closeEditModal()" class="text-white hover:text-gray-200 transition">
-                        <i class="fas fa-times text-2xl"></i>
-                    </button>
+                <!-- Edit Modal -->
+                <div id="editModal" class="modal-overlay hidden">
+                    <div class="modal flex items-center justify-center p-4">
+                        <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-xl dark:shadow-2xl max-w-2xl w-full transition-colors duration-300">
+                            <div class="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-6 py-4 flex justify-between items-center transition-colors duration-300">
+                                <h2 class="text-2xl font-bold text-white">Edit Article</h2>
+                                <button onclick="closeEditModal()" class="text-white hover:text-gray-200 transition">
+                                    <i class="fas fa-times text-2xl"></i>
+                                </button>
+                            </div>
+                            <form id="editArticleForm" class="p-6 space-y-4" style="display:none;">
+                                <input type="hidden" id="editArticleId">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Title</label>
+                                    <input type="text" id="editArticleTitle" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Author</label>
+                                    <input type="text" id="editArticleAuthor" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Category</label>
+                                    <select id="editArticleCategory" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"></select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Content</label>
+                                    <textarea id="editArticleContent" required rows="8" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"></textarea>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors duration-300">
+                                        <i class="fas fa-save mr-2"></i>Update Article
+                                    </button>
+                                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-gray-400 hover:bg-gray-500 dark:bg-gray-600 dark:hover:bg-gray-500 text-white py-2 rounded-lg font-semibold transition-colors duration-300">
+                                        <i class="fas fa-times mr-2"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <form id="editArticleForm" class="p-6 space-y-4" style="display:none;">
-                    <input type="hidden" id="editArticleId">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Title</label>
-                        <input type="text" id="editArticleTitle" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Author</label>
-                        <input type="text" id="editArticleAuthor" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Category</label>
-                        <select id="editArticleCategory" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"></select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Content</label>
-                        <textarea id="editArticleContent" required rows="8" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"></textarea>
-                    </div>
-                    <div class="flex gap-2">
-                        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors duration-300">
-                            <i class="fas fa-save mr-2"></i>Update Article
-                        </button>
-                        <button type="button" onclick="closeEditModal()" class="flex-1 bg-gray-400 hover:bg-gray-500 dark:bg-gray-600 dark:hover:bg-gray-500 text-white py-2 rounded-lg font-semibold transition-colors duration-300">
-                            <i class="fas fa-times mr-2"></i>Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 
     <!-- Alpine.js for reactive UI -->

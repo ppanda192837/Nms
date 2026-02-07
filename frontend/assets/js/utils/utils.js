@@ -161,3 +161,70 @@ class ExportUtil {
         URL.revokeObjectURL(url);
     }
 }
+
+/**
+ * Scroll Behavior Manager
+ */
+class ScrollManager {
+    static init() {
+        this.initBackToTop();
+        this.initModalScrollLock();
+    }
+
+    static initBackToTop() {
+        // Create back-to-top button
+        const backToTopBtn = document.createElement('button');
+        backToTopBtn.className = 'back-to-top';
+        backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        backToTopBtn.setAttribute('title', 'Back to top');
+        document.body.appendChild(backToTopBtn);
+
+        // Show/hide button on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // Scroll to top on click
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    static initModalScrollLock() {
+        // Monitor for modal visibility
+        const observer = new MutationObserver(() => {
+            const hasVisibleModal = document.querySelector('.modal-overlay.show, .fixed.inset-0:not(.hidden)');
+            if (hasVisibleModal) {
+                document.body.classList.add('scroll-lock');
+            } else {
+                document.body.classList.remove('scroll-lock');
+            }
+        });
+
+        observer.observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class'],
+            subtree: true,
+            childList: true
+        });
+    }
+
+    static scrollToElement(selector, offset = 100) {
+        const element = document.querySelector(selector);
+        if (element) {
+            const topPos = element.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: topPos, behavior: 'smooth' });
+        }
+    }
+
+    static scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// Initialize scroll manager when DOM is ready
+document.addEventListener('DOMContentLoaded', () => ScrollManager.init());
